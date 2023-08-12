@@ -18,10 +18,10 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/works' element={<Works />} />
-        <Route path='/liver' element={<Input path="liver" />} />
+        <Route path='/liver' element={<Input path="liver" setResult={setResult} />} />
         <Route path='/diabetes' element={<Input path="diabetes" setResult={setResult} />} />
-        <Route path="/heart" element={<Input path="heart" />} />
-        <Route path="/kidney" element={<Input path="kidney" />} />
+        <Route path="/heart" element={<Input path="heart" setResult={setResult} />} />
+        <Route path="/kidney" element={<Input path="kidney" setResult={setResult} />} />
         <Route path='/about' element={<About />} />
         <Route path='/offer' element={<Offer />} />
         <Route path='/tech' element={<Technology />} />

@@ -6,6 +6,8 @@ import pickle
 import bz2
 from sklearn.preprocessing import LabelEncoder
 
+# import asyncio
+
 app = Flask(__name__, static_folder="frontend/build", static_url_path='')
 CORS(app)
 
@@ -18,7 +20,7 @@ with open('Chronic_kidney_disease', 'rb') as g:
 with bz2.BZ2File('Liver_Disease_Prediction-2', 'rb') as h:
     Liver_disease = pickle.load(h)
 
-with open('HEART_DISEASE','rb') as f:
+with open('HEART_DISEASE', 'rb') as f:
     heart_disease = pickle.load(f)
 
 
@@ -26,7 +28,7 @@ encoder = LabelEncoder()
 
 
 @app.route("/api/diabetes", methods=['POST'])
-def post__diabetes_data():
+def post_diabetes_data():
     Pregnancies = int(request.json.get('preg'))
     Glucose = int(request.json.get('glu'))
     BloodPressure = int(request.json.get('bp'))
@@ -42,51 +44,92 @@ def post__diabetes_data():
     if (res[0] == 0):
         return jsonify({'result': 0})
     else:
-        return jsonify({'result': 1}) 
+        return jsonify({'result': 1})
+
+
+@app.route("/api/liver", methods=['POST'])
+def post_liver_data():
+    Age = int(request.json.get('Age'))
+    print(Age)
+    Gender = request.json.get('Gender')
+    Total_Bilirubin = float(request.json.get('Total_Bilirubin'))
+    Direct_Bilirubin = float(request.json.get('Direct_Bilirubin'))
+    AAP = int(request.json.get('AAP'))
+    SAA_1 = int(request.json.get('SAA_1'))
+    SAA_2 = int(request.json.get('SAA_2'))
+    Total_Protein = float(request.json.get('Total_Protein'))
+    ALB_Albumin = float(request.json.get('ALB_Albumin'))
+    AG_RATIO = float(request.json.get('AG_RATIO'))
+    print(Age)
+    df3 = pd.DataFrame(
+        {
+            'Age': [Age],
+            'Gender': [Gender],
+            'Total_Bilirubin': [Total_Bilirubin],
+            'Direct_Bilirubin': [Direct_Bilirubin],
+            'AAP': [AAP],
+            'SAA_1': [SAA_1],
+            'SAA_2': [SAA_2],
+            'Total_Protein': [Total_Protein],
+            'ALB_Albumin': [ALB_Albumin],
+            'AG_RATIO': [AG_RATIO],
+            'Result': [0],
+        }
+    )
+    print(df3)
+    df3['Gender'] = encoder.fit_transform(df3['Gender'])
+    print(df3)
+    res_4 = Liver_disease.predict(df3)
+
+    if (res_4[0] == 0):
+        return jsonify({'result': 0})
+    else:
+        return jsonify({'result': 1})
+
 
 @app.route("/api/heart", methods=['POST'])
 def post_heart_data():
-        age = int(request.json.get('age'))
-        sex = int(request.json.get('sex'))
-        cp = int(request.json.get('cp'))
-        trestbps = int(request.json.get('trestbps'))
-        chol = int(request.json.get('chol'))
-        fbs = float(request.json.get('fbs'))
-        restecg = float(request.json.get('restecg'))
-        thalach = int(request.json.get('thalach'))
-        exang = int(request.json.get('exang'))
-        oldpeak = int(request.json.get('oldpeak'))
-        slope = int(request.json.get('slope'))
-        ca = int(request.json.get('ca'))
-        thal = int(request.json.get('thal'))
+    age = int(request.json.get('age'))
+    sex = int(request.json.get('sex'))
+    cp = int(request.json.get('cp'))
+    trestbps = int(request.json.get('trestbps'))
+    chol = int(request.json.get('chol'))
+    fbs = float(request.json.get('fbs'))
+    restecg = float(request.json.get('restecg'))
+    thalach = int(request.json.get('thalach'))
+    exang = int(request.json.get('exang'))
+    oldpeak = int(request.json.get('oldpeak'))
+    slope = int(request.json.get('slope'))
+    ca = int(request.json.get('ca'))
+    thal = int(request.json.get('thal'))
 
-        df1 = pd.DataFrame(
-            {
-                'age':[age],
-                'sex':[sex],
-                'cp':[cp],
-                'trestbps':[trestbps],
-                'chol':[chol],
-                'fbs':[fbs],
-                'restecg':[restecg],
-                'thalach':[thalach],
-                'exang':[exang],
-                'oldpeak':[oldpeak],
-                'slope':[slope],
-                'ca':[ca],
-                'thal':[thal]
-            }
-        )
+    df1 = pd.DataFrame(
+        {
+            'age': [age],
+            'sex': [sex],
+            'cp': [cp],
+            'trestbps': [trestbps],
+            'chol': [chol],
+            'fbs': [fbs],
+            'restecg': [restecg],
+            'thalach': [thalach],
+            'exang': [exang],
+            'oldpeak': [oldpeak],
+            'slope': [slope],
+            'ca': [ca],
+            'thal': [thal]
+        }
+    )
 
-        df1['sex'] = encoder.fit_transform(df1['sex'])
-        df1['cp'] = encoder.fit_transform(df1['cp'])
-        
-        res_2 = heart_disease.predict(df1)
+    df1['sex'] = encoder.fit_transform(df1['sex'])
+    df1['cp'] = encoder.fit_transform(df1['cp'])
 
-        if (res_2[0] == 0):
-          return jsonify({'result': 0})
-        else:
-          return jsonify({'result': 1})
+    res_2 = heart_disease.predict(df1)
+
+    if (res_2[0] == 0):
+        return jsonify({'result': 0})
+    else:
+        return jsonify({'result': 1})
 
 
 @app.route("/api/kidney", methods=['POST'])
@@ -156,45 +199,7 @@ def post_kidney_data():
     df2['pe'] = encoder.fit_transform(df2['pe'])
     df2['ane'] = encoder.fit_transform(df2['ane'])
 
-    res_2 = kidney_disease.predict(df2)
-
-    if (res_2[0] == 0):
-        return jsonify({'result': 0})
-    else:
-        return jsonify({'result': 1})
-
-
-@app.route("/api/liver", methods=['POST'])
-def post_liver_data():
-    Age = int(request.json.get('Age'))
-    Gender = int(request.json.get('Gender'))
-    Total_Bilirubin = int(request.json.get('Total_Bilirubin'))
-    Direct_Bilirubin = int(request.json.get('Direct_Bilirubin'))
-    AAP = int(request.json.get('AAP'))
-    SAA_1 = float(request.json.get('SAA_1'))
-    SAA_2 = float(request.json.get('SAA_2'))
-    Total_Protein = int(request.json.get('Total_Protein'))
-    ALB_Albumin = int(request.json.get('ALB_Albumin'))
-    AG_RATIO = int(request.json.get('AG_RATIO'))
-
-    df3 = pd.DataFrame(
-        {
-            'Age': [Age],
-            'Gender': [Gender],
-            'Total_Bilirubin': [Total_Bilirubin],
-            'Direct_Bilirubin': [Direct_Bilirubin],
-            'AAP': [AAP],
-            'SAA_1': [SAA_1],
-            'SAA_2': [SAA_2],
-            'Total_Protein': [Total_Protein],
-            'ALB_Albumin': [ALB_Albumin],
-            'AG_RATIO': [AG_RATIO],
-        }
-    )
-
-    df3['Gender'] = encoder.fit_transform(df3['Gender'])
-
-    res_3 = Liver_disease.predict(df3)
+    res_3 = kidney_disease.predict(df2)
 
     if (res_3[0] == 0):
         return jsonify({'result': 0})

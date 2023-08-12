@@ -23,7 +23,8 @@ export const Input1 = ({ setResult }) => {
             });
 
             const data = await response.json();
-            console.log(data); // Output the response from Flask backend
+            console.log(data); // Output the response from Flask backend\
+
             function jsonConcat(o1, o2) {
                 for (var key in o2) {
                     o1[key] = o2[key];
@@ -61,9 +62,10 @@ export const Input1 = ({ setResult }) => {
                             <div className="field flex flex-wrap gap-3 lg:gap-0">
                                 <p className='w-full lg:w-[50%] capitalize'>Gender of The Patient</p>
                                 <select name="Gender" autoComplete="country-name" className="block lg:w-[50%] w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6" onChange={handleChange}>
-                                    <option>Male</option>
-                                    <option>Female</option>
-                                    <option>Other</option>
+                                    <option value="none">none</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
                                 </select>
                             </div>
 
