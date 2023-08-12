@@ -3,7 +3,7 @@ Our Track: HEALTHCARE
 
 # HEALTHCARE.AI: AI-Powered Diagnostic System
 
-![Project Logo](insert_your_logo_url_here)
+![Project Logo](logo.png)
 
 Healthcare.AI is an innovative AI-powered diagnostic system designed to revolutionize the healthcare industry by utilizing the capabilities of artificial intelligence and machine learning algorithms. Our goal is to enhance diagnostic accuracy, speed, and overall efficiency, ultimately leading to improved patient outcomes and more effective healthcare delivery.
 
