@@ -18,8 +18,6 @@ with open('Chronic_kidney_disease', 'rb') as g:
 with bz2.BZ2File('Liver_Disease_Prediction-2', 'rb') as h:
     Liver_disease = pickle.load(h)
 
-with open('heart_disease_model.pkl', 'rb') as k:
-    heart_disease = pickle.load(k)
 
 encoder = LabelEncoder()
 
@@ -39,51 +37,6 @@ def post__diabetes_data():
         [[Pregnancies, Glucose, BloodPressure, SkinThickness, Insulin, BMI, DiabetesPedigreeFunction, Age]])
 
     if (res[0] == 0):
-        return jsonify({'result': 0})
-    else:
-        return jsonify({'result': 1})
-
-
-@app.route("/api/heart", methods=['POST'])
-def post_heart_data():
-    age = int(request.json.get('age'))
-    sex = int(request.json.get('sex'))
-    cp = int(request.json.get('cp'))
-    trestbps = int(request.json.get('trestbps'))
-    chol = int(request.json.get('chol'))
-    fbs = float(request.json.get('fbs'))
-    restecg = float(request.json.get('restecg'))
-    thalach = int(request.json.get('thalach'))
-    exang = int(request.json.get('exang'))
-    oldpeak = int(request.json.get('oldpeak'))
-    slope = int(request.json.get('slope'))
-    ca = int(request.json.get('ca'))
-    thal = int(request.json.get('thal'))
-
-    df1 = pd.DataFrame(
-        {
-            'age': [age],
-            'sex': [sex],
-            'cp': [cp],
-            'trestbps': [trestbps],
-            'chol': [chol],
-            'fbs': [fbs],
-            'restecg': [restecg],
-            'thalach': [thalach],
-            'exang': [exang],
-            'oldpeak': [oldpeak],
-            'slope': [slope],
-            'ca': [ca],
-            'thal': [thal]
-        }
-    )
-
-    df1['sex'] = encoder.fit_transform(df1['sex'])
-    df1['cp'] = encoder.fit_transform(df1['cp'])
-
-    res_2 = heart_disease.predict(df1)
-
-    if (res_2[0] == 0):
         return jsonify({'result': 0})
     else:
         return jsonify({'result': 1})
@@ -114,7 +67,7 @@ def post_kidney_data():
     cad = int(request.json.get('cad'))
     appet = int(request.json.get('appet'))
     pe = int(request.json.get('pe'))
-    anne = int(request.json.get('anne'))
+    ane = int(request.json.get('ane'))
 
     df2 = pd.DataFrame(
         {

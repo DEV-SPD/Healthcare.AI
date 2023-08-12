@@ -56,7 +56,7 @@ export const Diabetes = ({ setResult }) => {
                             <input type="number" name="age" min={0} max={150} autoComplete="given-age" className="block lg:w-[50%] w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#3A8F99] sm:text-sm sm:leading-6 ps-2" onChange={handleChange} />
                         </div>
                         <div className="field flex flex-wrap gap-3 lg:gap-0">
-                            <p className='w-full lg:w-[50%] capitalize'>Pregnencies</p>
+                            <p className='w-full lg:w-[50%] capitalize'>pregnancies</p>
                             <input type="text" name="preg" autoComplete="given-age" className="block lg:w-[50%] w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#3A8F99] sm:text-sm sm:leading-6 ps-2" onChange={handleChange} />
                         </div>
                         <div className="field flex flex-wrap gap-3 lg:gap-0">
