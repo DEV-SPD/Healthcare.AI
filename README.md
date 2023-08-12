@@ -69,6 +69,6 @@ We welcome contributions from the community. To contribute to Healthcare.AI, fol
 
 ## Contact
 
-Have questions or feedback? Contact us at healthcare.ai@example.com.
+Have questions or feedback? Contact us at h3althcar3.ai@gmail.com.
 
 
