@@ -18,7 +18,7 @@ with open('Chronic_kidney_disease', 'rb') as g:
 with bz2.BZ2File('Liver_Disease_Prediction-2', 'rb') as h:
     Liver_disease = pickle.load(h)
 
-with open('Heart_Disease','rb') as f:
+with open('HEART_DISEASE','rb') as f:
     heart_disease = pickle.load(f)
 
 
