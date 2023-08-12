@@ -29,7 +29,8 @@ export const Navbar = () => {
             {((path === "/")
                 ?
                 (<div className={" flex justify-between items-center p-[1rem] fixed w-full h-[90px] z-20" + (color ? " bg-[rgba(0,0,0,0.85)] transition duration-[0.5s] " : "")}>
-                    <h1 className={'text-[2rem] md:text-[1.5rem] text-white  font-semibold'}>
+                    <h1 className={'text-[2rem] md:text-[1.5rem] text-white flex items-center  font-semibold h-full'}>
+                        <img src="https://i.ibb.co/ch5x527/logo-health-care.png" alt="logo-health-care" border="0" className='h-[90%] ' />
                         <Link to="/">
                             HEALTHCARE.AI
                         </Link>
@@ -58,7 +59,8 @@ export const Navbar = () => {
                 </div>)
                 :
                 (<div className={" flex justify-between items-center p-[1rem] fixed w-full h-[90px] z-20" + (color ? " bg-[rgba(0,0,0,0.85)] transition duration-[0.5s] text-white" : " text-[#3A8F99]")}>
-                    <h1 className={'text-[2rem] md:text-[1.5rem]  font-bold'}>
+                    <h1 className={'text-[2rem] md:text-[1.5rem] flex items-center  font-bold h-full'}>
+                        <img src="https://i.ibb.co/ch5x527/logo-health-care.png" alt="logo-health-care" border="0" className='h-[90%] ' />
                         <Link to="/">
                             HEALTHCARE.AI
                         </Link>
