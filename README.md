@@ -1,9 +1,10 @@
-# code-catalyst 
+# code-catalyst
+
 Our Track: HEALTHCARE
 
 # HEALTHCARE.AI: AI-Powered Diagnostic System
 
-![Project Logo](logo.png)
+![Project Logo](https://i.ibb.co/ch5x527/logo-health-care.png)
 
 AI-powered diagnostics is a field of healthcare that utilizes artificial intelligence (AI) and machine learning algorithms to assist healthcare professional in diagnosing medical conditions and diseases. The goal of AI-powered diagnostics is to enhance the accuracy, speed, and efficiency of the diagnostic process, ultimately leading to improved patient outcomes and more effective healthcare delivery.
 
@@ -16,7 +17,6 @@ AI-powered diagnostics is a field of healthcare that utilizes artificial intelli
 - [Usage](#usage)
 - [Contributing](#contributing)
 - [Contact](#contact)
-
 
 ## About the Project
 
@@ -70,5 +70,3 @@ We welcome contributions from the community. To contribute to Healthcare.AI, fol
 ## Contact
 
 Have questions or feedback? Contact us at h3althcar3.ai@gmail.com.
-
-
