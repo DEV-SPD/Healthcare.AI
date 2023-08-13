@@ -80,11 +80,47 @@ def post_liver_data():
     df3['Gender'] = encoder.fit_transform(df3['Gender'])
     print(df3)
     res_4 = Liver_disease.predict(df3)
+    treatment_recommendations = []
+
+    # Age considerations
+    if Age < 18:
+        treatment_recommendations.append(
+            "Consult a pediatric hepatologist for appropriate treatment.")
+    elif Age > 65:
+        treatment_recommendations.append(
+            "Careful monitoring and age-specific treatment recommended.")
+
+        # Gender and bilirubin levels
+    if Gender == "female" and Total_Bilirubin > 1.0:
+        treatment_recommendations.append(
+            "Further investigation and consultation with a hepatologist is     recommended.")
+    elif Total_Bilirubin > 2.5 or Direct_Bilirubin > 1.0:
+        treatment_recommendations.append(
+            "Elevated bilirubin levels require further evaluation and management.  ")
+
+    # Liver enzyme levels
+    if AAP > 150 or SAA_1 > 40 or SAA_2 > 35:
+        treatment_recommendations.append(
+            "Elevated liver enzymes suggest liver inflammation; consult a hepatologist.")
+
+    # Protein levels and albumin-to-globulin ratio
+    if Total_Protein < 6.0 or ALB_Albumin < 3.5 or AG_RATIO < 1.0:
+        treatment_recommendations.append(
+            "Low protein levels may indicate liver dysfunction; consult a doctor.")
+
+    # Construct the final treatment recommendation
+    if treatment_recommendations:
+        final_recommendation = treatment_recommendations
+    else:
+        final_recommendation = [
+            "Based on the provided values, no specific treatment recommendation."]
+
+    print("Treatment Recommendations:\n", final_recommendation)
 
     if (res_4[0] == 0):
-        return jsonify({'result': 0})
+        return jsonify({'result': 0, 'treat': final_recommendation})
     else:
-        return jsonify({'result': 1})
+        return jsonify({'result': 1, 'treat': final_recommendation})
 
 
 @app.route("/api/heart", methods=['POST'])
@@ -252,7 +288,7 @@ def tech():
     return send_from_directory(app.static_folder, 'index.html')
 
 
-@app.route("/tech")
+@app.route("/result")
 def result():
     return send_from_directory(app.static_folder, 'index.html')
 
