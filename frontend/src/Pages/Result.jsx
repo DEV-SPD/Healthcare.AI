@@ -2,6 +2,7 @@ import React from 'react'
 import { Navbar } from '../Components/Navbar';
 import { Footer } from '../Components/Footer'
 import { LiverRes } from '../Components/LiverRes';
+import { KidneyRes } from '../Components/KidneyRes';
 
 export const Result = ({ result }) => {
     console.log(result);
@@ -9,9 +10,11 @@ export const Result = ({ result }) => {
         <>
             <Navbar />
             {
-                result?.disease == 'liver' ?
+                result?.disease === 'liver' ?
                     <LiverRes result={result} />
-                    : (<></>)
+                    : (result?.disease === 'kidney' ?
+                        <KidneyRes result={result} />
+                        : <></>)
             }
             <Footer />
         </>

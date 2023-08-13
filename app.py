@@ -5,7 +5,7 @@ from flask.helpers import send_from_directory
 import pickle
 import bz2
 from sklearn.preprocessing import LabelEncoder
-
+from sklearn.preprocessing import OneHotEncoder
 # import asyncio
 
 app = Flask(__name__, static_folder="frontend/build", static_url_path='')
@@ -14,7 +14,7 @@ CORS(app)
 with open('diabetes', 'rb') as f:
     diabetes_model = pickle.load(f)
 
-with open('Chronic_kidney_disease', 'rb') as g:
+with open('Chronic_kidney_disease.unknown', 'rb') as g:
     kidney_disease = pickle.load(g)
 
 with bz2.BZ2File('Liver_Disease_Prediction-2', 'rb') as h:
@@ -25,6 +25,8 @@ with open('HEART_DISEASE', 'rb') as f:
 
 
 encoder = LabelEncoder()
+encoder1 = OneHotEncoder()
+1
 
 
 @app.route("/api/diabetes", methods=['POST'])
@@ -172,28 +174,28 @@ def post_heart_data():
 def post_kidney_data():
     age = int(request.json.get('age'))
     bp = int(request.json.get('bp'))
-    sg = int(request.json.get('sg'))
+    sg = float(request.json.get('sg'))
     al = int(request.json.get('al'))
     su = int(request.json.get('su'))
-    rbc = float(request.json.get('rbc'))
-    pc = float(request.json.get('pc'))
-    pcc = int(request.json.get('pcc'))
-    ba = int(request.json.get('ba'))
+    rbc = request.json.get('rbc')
+    pc = request.json.get('pc')
+    pcc = request.json.get('pcc')
+    ba = request.json.get('ba')
     bgr = int(request.json.get('bgr'))
     bu = int(request.json.get('bu'))
-    sc = int(request.json.get('sc'))
+    sc = float(request.json.get('sc'))
     sod = int(request.json.get('sod'))
-    pot = int(request.json.get('pot'))
-    hemo = int(request.json.get('hemo'))
+    pot = float(request.json.get('pot'))
+    hemo = float(request.json.get('hemo'))
     pcv = int(request.json.get('pcv'))
     wc = int(request.json.get('wc'))
-    rc = int(request.json.get('rc'))
-    htn = int(request.json.get('htn'))
-    dm = int(request.json.get('dm'))
-    cad = int(request.json.get('cad'))
-    appet = int(request.json.get('appet'))
-    pe = int(request.json.get('pe'))
-    ane = int(request.json.get('ane'))
+    rc = float(request.json.get('rc'))
+    htn = request.json.get('htn')
+    dm = request.json.get('dm')
+    cad = request.json.get('cad')
+    appet = request.json.get('appet')
+    pe = request.json.get('pe')
+    ane = request.json.get('ane')
 
     df2 = pd.DataFrame(
         {
@@ -221,6 +223,7 @@ def post_kidney_data():
             'appet': [appet],
             'pe': [pe],
             'ane': [ane],
+
         }
     )
 
@@ -237,10 +240,73 @@ def post_kidney_data():
 
     res_3 = kidney_disease.predict(df2)
 
+    def suggest_kidney_health_advice_and_medication_by_age(age, has_kidney_disease):
+        advice_and_medication = []
+
+        if has_kidney_disease:
+            if age >= 20 and age <= 30:
+                advice_and_medication.append(
+                    "For individuals in their 20s and 30s with kidney disease:")
+                advice_and_medication.append(
+                    "- Follow a renal-friendly diet: Limit salt, potassium, and phosphorus intake to support kidney function.")
+                advice_and_medication.append(
+                    "- Take prescribed medications: Depending on your condition, medications like phosphate binders and blood pressure drugs may be necessary.")
+                advice_and_medication.append(
+                    "- Regular check-ups: Stay in touch with your healthcare provider for monitoring and adjustments.")
+                advice_and_medication.append(
+                    "- Vitamin D supplements: If recommended, to address potential deficiency.")
+                advice_and_medication.append(
+                    "- Calcium supplements: As advised by your doctor for bone health.")
+
+            elif age >= 30 and age <= 60:
+                advice_and_medication.append(
+                    "For individuals in their 40s and 50s with kidney disease:")
+                advice_and_medication.append(
+                    "- Manage blood pressure and blood sugar: Follow your doctor's recommendations and take prescribed medications.")
+                advice_and_medication.append(
+                    "- Dietary adjustments: Control phosphorus intake and maintain a balanced diet for kidney health.")
+                advice_and_medication.append(
+                    "- Medications: Depending on your specific condition, ESA, ACE inhibitors, ARBs, and phosphate binders might be recommended.")
+                advice_and_medication.append(
+                    "- Iron supplements: If needed, to address anemia.")
+                advice_and_medication.append(
+                    "- Cholesterol-lowering medications: As recommended by your doctor for cardiovascular health.")
+            elif age >= 60:
+                advice_and_medication.append(
+                    "For individuals aged 60 and above with kidney disease:")
+                advice_and_medication.append(
+                    "- Medication adherence: Take prescribed blood pressure medications, ESA, and phosphate binders as directed.")
+                advice_and_medication.append(
+                    "- Nutritional guidance: Maintain a kidney-friendly diet with appropriate fluid, potassium, and protein intake.")
+                advice_and_medication.append(
+                    "- Regular appointments: Visit your healthcare provider for comprehensive kidney health monitoring.")
+                advice_and_medication.append(
+                    "- Diuretics: If necessary, to manage fluid balance.")
+                advice_and_medication.append(
+                    "- Statins: If recommended by your doctor for cardiovascular risk reduction.")
+
+            else:
+                advice_and_medication.append(
+                    "For personalized advice related to kidney disease and your specific age group, please consult a healthcare professional.")
+
+        else:
+            advice_and_medication.append(
+                "For individuals without kidney disease, the general advice mentioned earlier can be followed.")
+
+        return advice_and_medication
+
     if (res_3[0] == 0):
-        return jsonify({'result': 0})
+        has_kidney_disease = False
     else:
-        return jsonify({'result': 1})
+        has_kidney_disease = True
+
+    advice_and_medication = suggest_kidney_health_advice_and_medication_by_age(
+        age, has_kidney_disease)
+
+    if (res_3[0] == 0):
+        return jsonify({'result': 0, 'treat': advice_and_medication})
+    else:
+        return jsonify({'result': 1, 'treat': advice_and_medication})
 
 
 @app.route("/")
