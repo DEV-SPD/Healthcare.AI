@@ -1,4 +1,4 @@
-# code-catalyst
+# CODE-CATALYST
 
 Our Track: HEALTHCARE
 
